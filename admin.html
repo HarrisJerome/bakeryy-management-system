@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bakery - Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <h1 class="logo">Fresh Bake - Admin</h1>
+    <a href="index.html" class="back-link">← Back to Menu</a>
+  </header>
+
+  <nav class="admin-tabs">
+    <button type="button" class="tab-btn active" data-tab="menu">Manage Menu</button>
+    <button type="button" class="tab-btn" data-tab="report">Monthly Sales Report</button>
+    <button type="button" class="tab-btn" data-tab="settings">Settings</button>
+  </nav>
+
+  <main class="admin-main">
+    <!-- Manage Menu Tab -->
+    <section id="tab-menu" class="tab-content active">
+      <div class="menu-form-section">
+        <h2>Add New Item</h2>
+        <form id="menuForm">
+          <input type="hidden" id="editId">
+          <div class="form-row">
+            <label for="itemName">Name</label>
+            <input type="text" id="itemName" required placeholder="e.g. Egg Puffs">
+          </div>
+          <div class="form-row">
+            <label for="itemPrice">Price (₹)</label>
+            <input type="number" id="itemPrice" required min="1" placeholder="45">
+          </div>
+          <div class="form-row">
+            <label for="itemImage">Image URL</label>
+            <input type="url" id="itemImage" placeholder="https://...">
+          </div>
+          <div class="form-row">
+            <label for="itemCategory">Category</label>
+            <input type="text" id="itemCategory" placeholder="e.g. Snacks, Desserts">
+          </div>
+          <div class="form-actions">
+            <button type="submit" id="btnSave">Add Item</button>
+            <button type="button" id="btnCancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="menu-list-section">
+        <h2>Menu Items</h2>
+        <button type="button" id="btnResetMenu" class="btn-reset">Reset to Default Menu</button>
+        <div class="menu-table-wrap">
+          <table class="menu-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="menuTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Monthly Sales Report Tab -->
+    <section id="tab-report" class="tab-content">
+      <div class="report-controls">
+        <div class="form-row">
+          <label for="reportMonth">Month</label>
+          <select id="reportMonth"></select>
+        </div>
+        <div class="form-row">
+          <label for="reportYear">Year</label>
+          <select id="reportYear"></select>
+        </div>
+        <button type="button" id="btnLoadReport">Load Report</button>
+      </div>
+
+      <div class="report-summary" id="reportSummary"></div>
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Order ID</th>
+              <th>Items</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="reportTableBody"></tbody>
+        </table>
+      </div>
+      <p class="report-empty" id="reportEmpty">Select month/year and click Load Report</p>
+      <div class="report-actions">
+        <button type="button" id="btnCopyReport">Copy to Clipboard</button>
+        <button type="button" id="btnPrintReport">Print Report</button>
+      </div>
+    </section>
+
+    <!-- Settings Tab -->
+    <section id="tab-settings" class="tab-content">
+      <div class="settings-form">
+        <h2>Payment Settings</h2>
+        <div class="form-row">
+          <label for="upiId">UPI ID (for QR code)</label>
+          <input type="text" id="upiId" placeholder="yourname@upi">
+        </div>
+        <div class="form-row">
+          <label for="qrImageUrl">Or: Custom QR Image URL</label>
+          <input type="url" id="qrImageUrl" placeholder="https://...">
+        </div>
+        <p class="form-hint">Leave both empty to show placeholder. UPI ID generates dynamic QR with amount.</p>
+        <button type="button" id="btnSaveSettings">Save Settings</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Edit/Delete confirmation modal -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+      <h3>Delete Item?</h3>
+      <p id="deleteItemName"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn-danger" id="btnConfirmDelete">Delete</button>
+        <button type="button" class="btn-secondary" id="btnCancelDelete">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
